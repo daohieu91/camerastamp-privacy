@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<title>Privacy Policy — CameraStamp</title>
+<style>
+  :root {
+    --fg: #1a1a1a;
+    --muted: #555;
+    --bg: #fafafa;
+    --accent: #2196F3;
+    --rule: #e5e5e5;
+    --pill-bg: #e8f4fd;
+    --pill-fg: #0c5a99;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .updated {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 32px;
+  }
+  h2 {
+    font-size: 20px;
+    margin: 40px 0 12px;
+    letter-spacing: -0.005em;
+  }
+  h3 {
+    font-size: 16px;
+    margin: 24px 0 8px;
+    color: var(--fg);
+  }
+  p, ul { margin: 0 0 14px; }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  a:hover { text-decoration: none; }
+  .tldr {
+    background: var(--pill-bg);
+    color: var(--pill-fg);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 0 0 36px;
+  }
+  .tldr h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: var(--pill-fg);
+  }
+  .tldr p { margin: 0 0 10px; }
+  .tldr p:last-child { margin-bottom: 0; }
+  hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 48px 0 32px;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.92em;
+    background: #f0f0f0;
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 14px;
+  }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+<!--
+  Source of truth: spec docs/superpowers/specs/2026-10-09-camerastamp-part4-design.md §8.3 plus the code.
+  Every claim block carries data-claim="<key>" and a <!- - code: path:line - -> comment; scripts/check-privacy-claims.sh checks
+  that each block exists, says what it must, cites code that exists, and that every SDK in app/build.gradle.kts is covered.
+  App name "CameraStamp" is temporary (brand decided in Part 4C).
+-->
+
+<h1>Privacy Policy — CameraStamp</h1>
+<p class="updated">Effective date: October 10, 2026</p>
+
+<section class="tldr">
+  <h2>The short version</h2>
+  <p><strong>CameraStamp has no accounts, no sign-up and no server of ours.</strong> Your photos and videos stay on
+  your phone and in your own gallery. We never receive them, and we never receive your GPS position or your street
+  address. (Like most apps, our usage statistics show an approximate region, such as the country or city,
+  which Google works out from your IP address. See section 6.)</p>
+  <p>To draw the stamp, the app sends your location to Google (for the map and the street address) and to the
+  Norwegian weather service MET Norway (for the weather). When it seals a photo, it sends only a short fingerprint
+  of the file (a 32-byte hash, never the photo) to a time-stamping service. The free version shows ads from Google
+  AdMob, uses Google's Firebase for usage statistics, crash reports and remote settings, and uses Google Play
+  for the one-time Pro purchase. We do not sell your data.</p>
+  <p>Email <a href="mailto:hieu.dtvt10@gmail.com">hieu.dtvt10@gmail.com</a> with any privacy question.</p>
+</section>
+
+<h2>1. Who we are</h2>
+<p data-claim="contact">CameraStamp is developed by the Essenty Dev Team, based in Vietnam.
+Contact: <a href="mailto:hieu.dtvt10@gmail.com">hieu.dtvt10@gmail.com</a>.
+<!-- code: app/build.gradle.kts:104 --></p>
+
+<h2>2. What CameraStamp does</h2>
+<p>CameraStamp is a camera app. It prints the date, time, location, street address, weather and a small map onto your
+photos and videos, so they can serve as a record of where and when they were taken. It can also <em>seal</em> a
+photo: it adds a QR code and, inside the file, a C2PA record, so that anyone can later check that the file still
+matches the moment it was sealed. It keeps a "Passport" of the places you have photographed.</p>
+
+<h2>3. Your location</h2>
+<p data-claim="location">The app reads your location on your phone, through Android's location service, only while
+the camera is open, to write it on the stamp, in the photo's own metadata (EXIF) and on the map. We never receive
+your GPS position or the street address. If a stamp template does not show your coordinates, the QR code and the EXIF data of that photo do not contain
+them either. You can refuse the location permission: the camera still works, without location on the stamp.
+<!-- code: app/src/main/AndroidManifest.xml:11 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/context/location/FusedLocationSource.kt:24 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/media/ExifWriter.kt:25 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/verify/SealCodec.kt:56 --></p>
+<p>To fill in the stamp, the app sends your location to the following services. Each request is made directly from
+your phone to that service; nothing goes through us.</p>
+<ul>
+  <li data-claim="google-maps"><strong>Google Maps</strong> (map image): the map on the stamp and the map of your
+  Passport are drawn by the Google Maps SDK, which downloads the map for your position from Google.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/context/map/LiteMapHost.kt:77 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ui/passport/map/GoogleCityMap.kt:94 --></li>
+  <li data-claim="geocoder"><strong>Google Geocoder</strong> (street address): Android's built-in Geocoder turns your
+  coordinates into a street address. On most phones Android sends that request to Google.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/context/address/AddressSource.kt:53 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/context/address/AddressSource.kt:57 --></li>
+  <li data-claim="met-norway"><strong>MET Norway</strong> (weather): the app asks the Norwegian Meteorological
+  Institute's public weather service (<code>api.met.no</code>) for the current weather. It does not send your exact
+  position: it sends the centre of the roughly 5 km × 5 km square you are in. If MET Norway does not answer, the app
+  may ask Google's Weather API instead, with the same rounded position.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/di/ContextModule.kt:46 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/context/weather/MetNorwayWeatherProvider.kt:31 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/context/weather/MetNorwayWeatherProvider.kt:39 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/di/ContextModule.kt:47 --></li>
+</ul>
+<p>These services receive your location only to answer that request. Their own policies apply:
+<a href="https://policies.google.com/privacy">Google's Privacy Policy</a> and
+<a href="https://api.met.no/doc/TermsOfService">MET Norway's terms of service</a>.</p>
+
+<h2>4. Your photos and videos</h2>
+<p data-claim="photos">Photos and videos are saved on your phone, in your gallery. CameraStamp never uploads them,
+to us or to anyone. A photo you share carries what is printed on it and in its metadata (for example the location in
+its EXIF data, when the stamp shows coordinates). Sharing is always your choice.
+<!-- code: app/src/main/java/com/essenty/camerastamp/media/MediaStoreWriter.kt:102 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/media/ExifWriter.kt:25 --></p>
+
+<h3>4.1 Seals and time-stamps</h3>
+<p data-claim="tsa">When the app seals a photo or video, it asks a public time-stamping authority to sign the time.
+It sends only a <strong>32-byte hash</strong> (a SHA-256 fingerprint that cannot be turned back into the picture),
+never the photo, the video or your location. The authority is <strong>DigiCert</strong>
+(<code>timestamp.digicert.com</code>), or <strong>FreeTSA</strong> (<code>freetsa.org</code>) if DigiCert does not
+answer. DigiCert's time-stamp service is reached over plain HTTP; the request carries nothing but that hash, and the
+answer is checked by its signature.
+<!-- code: app/src/main/java/com/essenty/camerastamp/verify/VerifyConfig.kt:36 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/verify/VerifyConfig.kt:37 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/verify/c2pa/self/Rfc3161.kt:50 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/verify/c2pa/self/Rfc3161.kt:52 -->
+<!-- code: app/src/main/res/xml/network_security_config.xml:7 --></p>
+
+<h3>4.2 The check page</h3>
+<p data-claim="verify-page">The QR code on a sealed photo opens the check page at
+<a href="https://daohieu91.github.io/v/">daohieu91.github.io/v</a>. The data the page needs travels inside the QR
+link itself, after the <code>#</code>, which browsers do not send to the server. When you open a photo or video on that
+page, it is checked <strong>inside your browser</strong>; the page uploads nothing, and its security policy blocks it
+from sending data anywhere but its own site.
+<!-- code: app/src/main/java/com/essenty/camerastamp/verify/VerifyConfig.kt:13 -->
+<!-- code: ../v/index.html:6 --></p>
+
+<h2>5. Ads</h2>
+<ul>
+  <li data-claim="admob"><strong>Google AdMob</strong> shows ads in the free version. To choose and measure an ad,
+  Google's Mobile Ads SDK receives your device's Advertising ID, an approximate location derived from your IP
+  address, device and app information, and how you interact with the ad. CameraStamp adds nothing of its own to an ad
+  request: no location, no address, no photos. <strong>Once you have Pro, the app requests and shows no more ads, and
+  from the next launch it does not start the ad SDK at all.</strong> You can reset or delete your Advertising ID in
+  Android Settings. See
+  <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from apps that use its
+  services</a>.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ads/AdsManager.kt:78 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ads/AdsManager.kt:81 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ads/AdsManager.kt:105 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ads/AdsManager.kt:152 -->
+  <!-- code: app/src/main/AndroidManifest.xml:18 --></li>
+  <li data-claim="ump"><strong>Consent:</strong> in regions where the law requires it (for example the EEA, the UK and
+  Switzerland), the app uses Google's User Messaging Platform to ask for your consent before any ad is requested.
+  Ads are personalised only if you consent; if you do not, you may still see ads, but they are not personalised.
+  You can change your choice at any time in the app: <em>Settings → Privacy options (ads)</em>.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/MainActivity.kt:114 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ads/AdsManager.kt:104 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ui/settings/SettingsScreen.kt:76 --></li>
+</ul>
+
+<h2>6. Statistics, crash reports and settings (Firebase)</h2>
+<ul>
+  <li data-claim="analytics"><strong>Firebase Analytics</strong> receives app usage events, for example that a photo
+  was taken, which stamp template was used, or that an ad was shown. Every event is checked against a fixed list of
+  allowed fields, and that list contains <strong>no location, address, note or file</strong>. Firebase also collects
+  standard device information, such as model, Android version, the Advertising ID and app set ID, and an approximate
+  region (country, region and city) that Google derives from your IP address. We see that region in our Analytics
+  reports; it is never your GPS position. Google deletes event-level data linked to an identifier after 2 months;
+  aggregated statistics (for example, totals per country) are kept. Analytics data sharing with Google is limited to
+  technical support: we have turned off sharing for Google's own products and services, for modelling and benchmarking,
+  and with account specialists. Google's support staff can see our Analytics data only if we ask them for help.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/analytics/FirebaseAnalyticsLogger.kt:13 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/analytics/AnalyticsLogger.kt:31 --></li>
+  <li data-claim="crashlytics"><strong>Firebase Crashlytics</strong> receives a crash report if the app crashes: the
+  stack trace, device model, Android and app version, plus three tags we set (Android version, free or Pro, and the
+  stamp template). For errors the app catches and reports itself, the error message is removed before sending, because
+  a message could contain a file name. A crash the app does not catch keeps its original message. Reports may also
+  carry short fixed status notes from the app (for example a billing step name), never your data. Google keeps crash
+  reports for 90 days.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/analytics/SafeCrash.kt:20 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/analytics/CrashKeys.kt:15 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/analytics/SafeCrash.kt:37 --></li>
+  <li data-claim="remote-config"><strong>Firebase Remote Config</strong> downloads settings we can change without an
+  update, such as how often ads may appear. To fetch them it sends the Firebase installation ID and the Analytics app
+  instance ID (identifiers for this installation of the app, not for you), and basic device information such as
+  country, language, time zone, Android version and app version. It never sends your photos, location or notes.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/config/RemoteConfigRepository.kt:40 --></li>
+</ul>
+
+<h2>7. Purchases and reviews</h2>
+<ul>
+  <li data-claim="billing"><strong>Google Play Billing:</strong> the one-time "Pro" upgrade is sold by Google Play.
+  Google handles the payment; we receive only a confirmation that the purchase exists. We never see your card or
+  payment details.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/billing/BillingManager.kt:447 --></li>
+  <li data-claim="review"><strong>Ratings:</strong> the app may ask you to rate it using Google Play's in-app review
+  window. Your rating and review go to Google Play, not to us.
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ui/rate/InAppReview.kt:38 --></li>
+</ul>
+
+<h2>8. Stored on your phone, and backup</h2>
+<div data-claim="backup">
+<p>The app keeps its data in its private storage on your phone: your settings (including the
+note, project and author name you type for the stamp, and the logo image you pick), the photo library index, and your
+Passport (<code>passport.db</code>: the place codes and dates of the places you have photographed, with no
+coordinates).</p>
+<p>If backup is turned on on your phone, Android Auto Backup copies the app's private storage to <em>your</em> Google
+account backup, so it comes back on a new phone. We cannot read that backup. It includes:</p>
+<ul>
+  <li>your settings, including the stamp note, project, author name and logo image;</li>
+  <li>the Passport database (<code>passport.db</code>);</li>
+  <li>the public certificates the app uses for seals (no private keys: those stay in the phone's secure hardware and
+  are never copied);</li>
+  <li>settings that Google's components keep for themselves inside the app, such as your ad-consent choice (the
+  consent record from Google's User Messaging Platform) and the Firebase installation ID.</li>
+</ul>
+<p>Not backed up: the photo library index, unfinished captures and unsigned copies waiting for a seal, an old map
+cache, and everything in the app's no-backup storage: the Pro and reward caches (Google Play restores Pro by itself),
+the built-in place data, an install marker, and the list of pending background tasks. Uninstalling the app deletes
+everything it stored on the phone; photos
+already in your gallery stay there.
+<!-- code: app/src/main/AndroidManifest.xml:22 -->
+<!-- code: app/src/main/res/xml/backup_rules.xml:8 -->
+<!-- code: app/src/main/res/xml/backup_rules.xml:11 -->
+<!-- code: app/src/main/res/xml/data_extraction_rules.xml:4 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/passport/db/PassportDb.kt:11 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/settings/SettingsRepository.kt:62 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/billing/ProCache.kt:40 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/verify/c2pa/SignerCertificates.kt:27 -->
+<!-- code: app/src/main/java/com/essenty/camerastamp/di/StorageModule.kt:32 --></p>
+</div>
+
+<h2>9. Permissions and why</h2>
+<ul>
+  <li><strong>Camera</strong>: to take photos and videos.</li>
+  <li><strong>Microphone</strong>: to record sound with videos.</li>
+  <li><strong>Location (precise and approximate)</strong>: for the stamp, as described in section 3.</li>
+  <li><strong>Notifications</strong>: to show progress while a video is being stamped.</li>
+  <li><strong>Storage (Android 9 and older only)</strong>: to save photos and videos to your gallery.</li>
+  <li><strong>Foreground service</strong>: to keep stamping and sealing a video running when you leave the app.</li>
+  <li><strong>Network state</strong>: to skip the map and weather when you are offline.</li>
+  <li><strong>Advertising ID</strong>: used by Google AdMob and Firebase Analytics, as described in sections 5 and 6.</li>
+</ul>
+<!-- code: app/src/main/AndroidManifest.xml:7 -->
+<!-- code: app/src/main/AndroidManifest.xml:10 -->
+<!-- code: app/src/main/AndroidManifest.xml:17 -->
+<!-- code: app/src/main/AndroidManifest.xml:13 -->
+<!-- code: app/src/main/AndroidManifest.xml:14 -->
+<!-- code: app/src/main/AndroidManifest.xml:9 -->
+
+<h2>10. What we do not do</h2>
+<ul>
+  <li data-claim="no-sale"><strong>We do not sell your data.</strong> We have no server and receive no personal data
+  of our own; the services above receive only what is described here.
+  <!-- code: none (no server: the only network calls are the services listed in sections 3 to 7, see the SDK map in scripts/check-privacy-claims.sh) --></li>
+  <li><strong>No accounts</strong>, no sign-up, and no way for us to identify you.</li>
+  <li><strong>Your GPS position, street address, notes, photos and videos are never sent to us</strong>, and the app
+  never adds them to analytics or crash reports. (Analytics does show us an approximate region derived from your IP
+  address; see section 6.)</li>
+</ul>
+
+<h2>11. Children</h2>
+<p data-claim="children">CameraStamp is not directed at children under 13 and is not designed for them. We do not
+knowingly collect data from children. <!-- code: none (audience declaration: Play Console Target audience 13+/18+, runbook §4) --></p>
+
+<h2>12. Your rights and deleting your data</h2>
+<div data-claim="deletion">
+<p>CameraStamp has no account and no server of ours, so we hold no data about you that we could look up, correct or
+delete, and we cannot identify you from an email. What you can do yourself, at any time:</p>
+<ul>
+  <li><strong>Delete what the app keeps on your phone:</strong> uninstall it, or use <em>Android Settings → Apps →
+  CameraStamp → Storage → Clear data</em>. Clearing data also gives the app new Firebase identifiers and asks for ad
+  consent again (where consent is required). Photos already in your gallery are not affected. To remove the Auto Backup
+  copy, delete the app's backup in your Google account settings.</li>
+  <li><strong>Reset or delete your Advertising ID:</strong> <em>Android Settings → Privacy → Ads</em> (on some phones
+  <em>Settings → Google → Ads</em>). Ads can then no longer be linked to the old ID. Usage statistics stay linked to the app's own instance ID until
+  you clear the app's data or uninstall it.</li>
+  <li><strong>Change your ad consent:</strong> <em>Settings → Privacy options (ads)</em> in the app.</li>
+  <li><strong>Data held by Google:</strong> Google deletes Firebase Analytics event-level data linked to an identifier
+  after 2 months (aggregated statistics, such as totals per country, are kept), and Crashlytics crash reports
+  after 90 days. Data Google holds for advertising is covered by
+  <a href="https://policies.google.com/privacy">Google's Privacy Policy</a> and your Google account's ad settings.</li>
+  <li><strong>Ask us:</strong> <a href="mailto:hieu.dtvt10@gmail.com">hieu.dtvt10@gmail.com</a>. We will explain what
+  is stored and where, and help you with the steps above; we aim to reply within 7 business days.</li>
+</ul>
+<p>If you live in the EU or the UK, you may also complain to your local data protection authority.</p>
+<!-- code: none (deletion is done with Android and Google tools: no server or account of ours exists; Analytics retention is a Firebase console setting, runbook §2) -->
+</div>
+
+<h2>13. Changes to this policy</h2>
+<p>If the app starts sending any new kind of data, this page will be updated before that version is released, and the
+date at the top will change.</p>
+
+</main>
+</body>
+</html>
