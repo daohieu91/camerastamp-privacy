@@ -105,7 +105,7 @@
 -->
 
 <h1>Privacy Policy — MapStamp</h1>
-<p class="updated">Effective date: October 10, 2026</p>
+<p class="updated">Effective date: October 17, 2026</p>
 
 <section class="tldr">
   <h2>The short version</h2>
@@ -130,7 +130,7 @@ Contact: <a href="mailto:hieu.dtvt10@gmail.com">hieu.dtvt10@gmail.com</a>.
 <p>MapStamp is a camera app. It prints the date, time, location, street address, weather and a small map onto your
 photos and videos, so they can serve as a record of where and when they were taken. It can also <em>seal</em> a
 photo: it adds a QR code and, inside the file, a C2PA record, so that anyone can later check that the file still
-matches the moment it was sealed. It keeps a "Passport" of the places you have photographed.</p>
+matches the moment it was sealed. You can also turn a photo into a "stamp" in your Stamps collection, kept only on your phone.</p>
 
 <h2>3. Your location</h2>
 <p data-claim="location">The app reads your location on your phone, through Android's location service, only while
@@ -144,10 +144,12 @@ them either. You can refuse the location permission: the camera still works, wit
 <p>To fill in the stamp, the app sends your location to the following services. Each request is made directly from
 your phone to that service; nothing goes through us.</p>
 <ul>
-  <li data-claim="google-maps"><strong>Google Maps</strong> (map image): the map on the stamp and the map of your
-  Passport are drawn by the Google Maps SDK, which downloads the map for your position from Google.
+  <li data-claim="google-maps"><strong>Google Maps</strong> (map image): the map on the stamp, the map of your Stamps
+  places and the small map on a place page are drawn by the Google Maps SDK, which downloads map tiles for the area
+  shown from Google.
   <!-- code: app/src/main/java/com/essenty/camerastamp/context/map/LiteMapHost.kt:77 -->
-  <!-- code: app/src/main/java/com/essenty/camerastamp/ui/passport/map/GoogleCityMap.kt:94 --></li>
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ui/stamps/map/GoogleCityMap.kt:94 -->
+  <!-- code: app/src/main/java/com/essenty/camerastamp/ui/stamps/PlaceViewModel.kt:108 --></li>
   <li data-claim="geocoder"><strong>Google Geocoder</strong> (street address): Android's built-in Geocoder turns your
   coordinates into a street address. On most phones Android sends that request to Google.
   <!-- code: app/src/main/java/com/essenty/camerastamp/context/address/AddressSource.kt:53 -->
@@ -262,26 +264,26 @@ from sending data anywhere but its own site.
 <div data-claim="backup">
 <p>The app keeps its data in its private storage on your phone: your settings (including the
 note, project and author name you type for the stamp, and the logo image you pick), the photo library index, and your
-Passport (<code>passport.db</code>: the place codes and dates of the places you have photographed, with no
-coordinates).</p>
+Stamps collection (<code>passport.db</code>, with the stamp images next to it in the app's no-backup storage: the
+place codes, dates and small images of the stamps you made). Stamps are kept only on your phone.</p>
 <p>If backup is turned on on your phone, Android Auto Backup copies the app's private storage to <em>your</em> Google
 account backup, so it comes back on a new phone. We cannot read that backup. It includes:</p>
 <ul>
   <li>your settings, including the stamp note, project, author name and logo image;</li>
-  <li>the Passport database (<code>passport.db</code>);</li>
   <li>the public certificates the app uses for seals (no private keys: those stay in the phone's secure hardware and
   are never copied);</li>
   <li>settings that Google's components keep for themselves inside the app, such as your ad-consent choice (the
   consent record from Google's User Messaging Platform) and the Firebase installation ID.</li>
 </ul>
-<p>Not backed up: the photo library index, unfinished captures and unsigned copies waiting for a seal, an old map
+<p>Not backed up: your Stamps collection (the database <code>passport.db</code> and the stamp images), so stamps are
+not in Google's backup and do not come back on a new phone; the photo library index, unfinished captures and unsigned copies waiting for a seal, an old map
 cache, and everything in the app's no-backup storage: the Pro and reward caches (Google Play restores Pro by itself),
 the built-in place data, an install marker, and the list of pending background tasks. Uninstalling the app deletes
 everything it stored on the phone; photos
 already in your gallery stay there.
 <!-- code: app/src/main/AndroidManifest.xml:22 -->
 <!-- code: app/src/main/res/xml/backup_rules.xml:8 -->
-<!-- code: app/src/main/res/xml/backup_rules.xml:11 -->
+<!-- code: app/src/main/res/xml/backup_rules.xml:15 -->
 <!-- code: app/src/main/res/xml/data_extraction_rules.xml:4 -->
 <!-- code: app/src/main/java/com/essenty/camerastamp/passport/db/PassportDb.kt:11 -->
 <!-- code: app/src/main/java/com/essenty/camerastamp/settings/SettingsRepository.kt:62 -->
